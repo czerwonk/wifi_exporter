@@ -9,6 +9,11 @@ This is an early version. It uses undocumented API calls so it can break at any 
 go get github.com/czerwonk/ubnt_wifi_exporter
 ```
 
+# Use
+```
+ubnt_wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
+```
+
 # Prometheus
 see https://prometheus.io/
 
