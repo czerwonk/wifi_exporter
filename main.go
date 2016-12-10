@@ -32,9 +32,9 @@ var (
 	showVersion   = flag.Bool("version", false, "Print version information.")
 	listenAddress = flag.String("web.listen-address", ":9120", "Address on which to expose metrics and web interface.")
 	metricsPath   = flag.String("web.telemetry-path", "/metrics", "Path under which to expose metrics.")
-	apiUrl        = flag.String("unifi.url", "http://unifi", "base URL to the Unifi Controller API")
-	apiUser       = flag.String("unifi.user", "username", "username to access the Unifi Controller API")
-	apiPass       = flag.String("unifi.pass", "password", "password to authorize user")
+	apiUrl        = flag.String("controller.url", "http://unifi", "base URL to the Unifi Controller API")
+	apiUser       = flag.String("controller.user", "username", "username to access the Unifi Controller API")
+	apiPass       = flag.String("controller.pass", "password", "password to authorize user")
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 }
 
 func printVersion() {
-	fmt.Println("unifi_exporter")
+	fmt.Println("ubnt_wifi_exporter")
 	fmt.Printf("Version: %s\n", version)
 	fmt.Println("Metric exporter for unifi controller")
 }
