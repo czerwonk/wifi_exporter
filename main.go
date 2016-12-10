@@ -55,7 +55,7 @@ func printVersion() {
 }
 
 func startServer() {
-	fmt.Printf("Starting unifi exporter (Version: %s)\n", version)
+	fmt.Printf("Starting ubnt wifi exporter (Version: %s)\n", version)
 	http.HandleFunc(*metricsPath, handleMetricsRequest)
 
 	fmt.Printf("Listening for %s on %s\n", *metricsPath, *listenAddress)
