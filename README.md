@@ -1,4 +1,4 @@
-# ubnt_exporter
+# ubnt_wifi_exporter
 Metric exporter for unifi controllers to use with Prometheus
 
 # Remarks
