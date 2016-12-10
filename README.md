@@ -8,5 +8,6 @@ This is an early version. It uses undocumented API calls so it can break at any 
 see https://prometheus.io/
 
 # Unfi Controller
-Unifi is a registered trademark
+Unifi is a registered trademark of Ubiquiti Networks
+
 see https://www.ubnt.com/enterprise/software/
