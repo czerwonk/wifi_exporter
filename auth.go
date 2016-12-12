@@ -35,6 +35,7 @@ func getCookie() (string, error) {
 		log.Println(err)
 		return "", err
 	}
+	defer resp.Body.Close()
 
 	return handleLoginResponse(resp)
 }
