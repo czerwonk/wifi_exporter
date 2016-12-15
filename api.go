@@ -38,13 +38,7 @@ func sendApiRequest(req *http.Request) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	return getBodyFromResponse(resp)
-}
-
-func getBodyFromResponse(resp *http.Response) ([]byte, error) {
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-
-	return body, err
+	
+	return ioutil.ReadAll(resp.Body)
 }
