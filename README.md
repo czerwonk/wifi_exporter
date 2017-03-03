@@ -14,6 +14,11 @@ go get github.com/czerwonk/ubnt_wifi_exporter
 ubnt_wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
 ```
 
+# Use with Docker
+```
+docker run -d -e apiurl="http://unifi" -e user="username" -e pass="secret" czerwonk/ubnt_wifi_exporter
+```
+
 # Prometheus
 see https://prometheus.io/
 
