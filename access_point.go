@@ -8,6 +8,7 @@ import (
 
 type accessPoint struct {
 	name     string
+	mac      string
 	state    int
 	clientsN int
 	clientsG int
@@ -15,10 +16,11 @@ type accessPoint struct {
 
 type apJsonData struct {
 	Data []struct {
-		Name     string `json:"name"`
+		Name     string `json:"name,omitempty"`
 		State    int    `json:"state"`
 		NaNumSta int    `json:"na-num_sta"`
 		NgNumSta int    `json:"ng-num_sta"`
+		Mac      string `json:"mac"`
 	} `json:"data"`
 	Meta struct {
 		Rc  string `json:"rc"`
@@ -56,7 +58,7 @@ func getApsFromJsonData(json apJsonData) []*accessPoint {
 	res := make([]*accessPoint, 0)
 
 	for _, x := range json.Data {
-		s := accessPoint{name: x.Name, state: x.State, clientsN: x.NaNumSta, clientsG: x.NgNumSta}
+		s := accessPoint{name: x.Name, mac: x.Mac, state: x.State, clientsN: x.NaNumSta, clientsG: x.NgNumSta}
 		res = append(res, &s)
 	}
 

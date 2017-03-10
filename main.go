@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-const version string = "0.2.1"
+const version string = "0.2.2"
 
 var (
 	showVersion   = flag.Bool("version", false, "Print version information.")
@@ -110,7 +110,15 @@ func printMetricsForSite(s *site, cookie string, w io.Writer) error {
 }
 
 func printMetricsForAccessPoint(ap *accessPoint, s *site, w io.Writer) {
-	fmt.Fprintf(w, "unifi_ap_state{site=\"%s\",ap_name=\"%s\"} %d\n", s.name, ap.name, ap.state)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\"} %d\n", s.name, ap.name, ap.clientsN)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\"} %d\n", s.name, ap.name, ap.clientsG)
+	fmt.Fprintf(w, "unifi_ap_state{site=\"%s\",ap_name=\"%s\"} %d\n", s.name, getApName(ap), ap.state)
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\"} %d\n", s.name, getApName(ap), ap.clientsN)
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\"} %d\n", s.name, getApName(ap), ap.clientsG)
+}
+
+func getApName(ap *accessPoint) string {
+	if len(ap.name) == 0 {
+		return ap.mac
+	}
+
+	return ap.name
 }
