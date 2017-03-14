@@ -1,12 +1,12 @@
 # wifi_exporter [![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)][travis]
-Metric exporter for ubnt wireless controllers to use with Prometheus
+Metric exporter for wireless controllers to use with Prometheus
 
 # Remarks
 This is an early version. It uses undocumented API calls so it can break at any  time.
 
 # Install
 ```
-go get github.com/czerwonk/wifi_exporter
+go get -u github.com/czerwonk/wifi_exporter
 ```
 
 # Use
