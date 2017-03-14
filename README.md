@@ -1,4 +1,4 @@
-# ubnt_wifi_exporter [![Build Status](https://travis-ci.org/czerwonk/ubnt_wifi_exporter.svg)][travis]
+# wifi_exporter [![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)][travis]
 Metric exporter for ubnt wireless controllers to use with Prometheus
 
 # Remarks
@@ -6,17 +6,17 @@ This is an early version. It uses undocumented API calls so it can break at any 
 
 # Install
 ```
-go get github.com/czerwonk/ubnt_wifi_exporter
+go get github.com/czerwonk/wifi_exporter
 ```
 
 # Use
 ```
-ubnt_wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
+wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
 ```
 
 # Use with Docker
 ```
-docker run -d -e apiurl="http://unifi" -e user="username" -e pass="secret" czerwonk/ubnt_wifi_exporter
+docker run -d -e apiurl="http://unifi" -e user="username" -e pass="secret" czerwonk/wifi_exporter
 ```
 
 # Prometheus
@@ -27,4 +27,4 @@ Unifi is a registered trademark of Ubiquiti Networks
 
 see https://www.ubnt.com/enterprise/software/
 
-[travis]: https://travis-ci.org/czerwonk/ubnt_wifi_exporter
+[travis]: https://travis-ci.org/czerwonk/wifi_exporter

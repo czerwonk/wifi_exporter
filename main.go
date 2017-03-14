@@ -34,7 +34,7 @@ func main() {
 }
 
 func printVersion() {
-	fmt.Println("ubnt_wifi_exporter")
+	fmt.Println("wifi_exporter")
 	fmt.Printf("Version: %s\n", version)
 	fmt.Println("Metric exporter for unifi controller")
 }
