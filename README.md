@@ -14,12 +14,12 @@ go get -u github.com/czerwonk/wifi_exporter
 wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
 ```
 
-# Use with Docker
+## Use with Docker
 ```
 docker run -d -e apiurl="http://unifi" -e user="username" -e pass="secret" czerwonk/wifi_exporter
 ```
 
-## License
+# License
 (c) Daniel Czerwonk, 2016. Licensed under [MIT](LICENSE) license.
 
 # Prometheus
