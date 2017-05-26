@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-const version string = "0.2.2"
+const version string = "0.2.3"
 
 var (
 	showVersion   = flag.Bool("version", false, "Print version information.")
@@ -103,16 +103,26 @@ func printMetricsForSite(s *site, cookie string, w io.Writer) error {
 	}
 
 	for _, ap := range aps {
-		printMetricsForAccessPoint(ap, s, w)
+		writeMetricsForAccessPoint(ap, s, w)
 	}
 
 	return nil
 }
 
-func printMetricsForAccessPoint(ap *accessPoint, s *site, w io.Writer) {
-	fmt.Fprintf(w, "unifi_ap_state{site=\"%s\",ap_name=\"%s\"} %d\n", s.name, getApName(ap), ap.state)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\"} %d\n", s.name, getApName(ap), ap.clientsN)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\"} %d\n", s.name, getApName(ap), ap.clientsG)
+func writeMetricsForAccessPoint(ap *accessPoint, s *site, w io.Writer) {
+	name := getApName(ap)
+	fmt.Fprintf(w, "unifi_ap_state{site=\"%s\",ap_name=\"%s\"} %d\n", s.name, name, ap.state)
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\"} %d\n", s.name, name, ap.clientsN)
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\"} %d\n", s.name, name, ap.clientsG)
+
+	for _, x := range ap.ssids {
+		writeMetricsForSsid(x, s, name, w)
+	}
+}
+
+func writeMetricsForSsid(ssid *ssid, site *site, name string, w io.Writer) {
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\",ssid=\"%s\"} %d\n", site.name, name, ssid.name, ssid.clientsN)
+	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\",ssid=\"%s\"} %d\n", site.name, name, ssid.name, ssid.clientsG)
 }
 
 func getApName(ap *accessPoint) string {
