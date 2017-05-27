@@ -1,4 +1,4 @@
-package main
+package unifi
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-func requestApi(ressource string, cookie string) ([]byte, error) {
-	req, err := getApiRequest(ressource, cookie)
+func requestApi(ressource string, cookie string, url string) ([]byte, error) {
+	req, err := getApiRequest(ressource, url)
 
 	if err != nil {
 		return nil, err
@@ -19,10 +19,10 @@ func requestApi(ressource string, cookie string) ([]byte, error) {
 	return sendApiRequest(req)
 }
 
-func getApiRequest(ressource string, cookie string) (*http.Request, error) {
-	url := fmt.Sprintf("%s/api/%s", *apiUrl, ressource)
-	log.Printf("GET %s\n", url)
-	req, err := http.NewRequest("GET", url, nil)
+func getApiRequest(ressource string, url string) (*http.Request, error) {
+	u := fmt.Sprintf("%s/api/%s", url, ressource)
+	log.Printf("GET %s\n", u)
+	req, err := http.NewRequest("GET", u, nil)
 
 	if err != nil {
 		return nil, err
@@ -39,6 +39,6 @@ func sendApiRequest(req *http.Request) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	
+
 	return ioutil.ReadAll(resp.Body)
 }

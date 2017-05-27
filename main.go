@@ -1,17 +1,18 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/czerwonk/wifi_exporter/unifi"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-const version string = "0.2.3"
+const version string = "0.3.0"
 
 var (
 	showVersion   = flag.Bool("version", false, "Print version information.")
@@ -37,30 +38,20 @@ func printVersion() {
 	fmt.Println("wifi_exporter")
 	fmt.Printf("Version: %s\n", version)
 	fmt.Println("Author(s): Daniel Czerwonk")
-	fmt.Println("Metric exporter for unifi controller")
+	fmt.Println("Metric exporter for wifi controllers")
 }
 
 func startServer() {
-	fmt.Printf("Starting ubnt wifi exporter (Version: %s)\n", version)
+	fmt.Printf("Starting wifi exporter (Version: %s)\n", version)
 	http.HandleFunc(*metricsPath, errorHandler(handleMetricsRequest))
 
 	fmt.Printf("Listening for %s on %s\n", *metricsPath, *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
 }
 
-func errorHandler(f func(io.Writer, *http.Request) error) http.HandlerFunc {
+func errorHandler(f func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var buf bytes.Buffer
-		wr := bufio.NewWriter(&buf)
-		err := f(wr, r)
-		wr.Flush()
-
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-
-		_, err = w.Write(buf.Bytes())
+		err := f(w, r)
 
 		if err != nil {
 			log.Println(err)
@@ -68,68 +59,18 @@ func errorHandler(f func(io.Writer, *http.Request) error) http.HandlerFunc {
 	}
 }
 
-func handleMetricsRequest(w io.Writer, r *http.Request) error {
-	cookie, err := getCookie()
+func handleMetricsRequest(w http.ResponseWriter, r *http.Request) error {
+	c, err := unifi.NewUnifiCollector(*apiUrl, *apiUser, *apiPass)
 
 	if err != nil {
 		return err
 	}
 
-	return printMetricsForSites(cookie, w)
-}
+	reg := prometheus.NewRegistry()
+	reg.MustRegister(c)
 
-func printMetricsForSites(cookie string, w io.Writer) error {
-	sites, err := getSites(cookie)
-
-	if err != nil {
-		return err
-	}
-
-	log.Printf("%d sites\n", len(sites))
-
-	for _, s := range sites {
-		if err = printMetricsForSite(s, cookie, w); err != nil {
-			return err
-		}
-	}
+	h := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
+	h.ServeHTTP(w, r)
 
 	return nil
-}
-
-func printMetricsForSite(s *site, cookie string, w io.Writer) error {
-	aps, err := getAccessPoints(s.id, cookie)
-
-	if err != nil {
-		return err
-	}
-
-	for _, ap := range aps {
-		writeMetricsForAccessPoint(ap, s, w)
-	}
-
-	return nil
-}
-
-func writeMetricsForAccessPoint(ap *accessPoint, s *site, w io.Writer) {
-	name := getApName(ap)
-	fmt.Fprintf(w, "unifi_ap_state{site=\"%s\",ap_name=\"%s\"} %d\n", s.name, name, ap.state)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\"} %d\n", s.name, name, ap.clientsN)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\"} %d\n", s.name, name, ap.clientsG)
-
-	for _, x := range ap.ssids {
-		writeMetricsForSsid(x, s, name, w)
-	}
-}
-
-func writeMetricsForSsid(ssid *ssid, site *site, name string, w io.Writer) {
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"na\",ssid=\"%s\"} %d\n", site.name, name, ssid.name, ssid.clientsN)
-	fmt.Fprintf(w, "unifi_ap_clients{site=\"%s\",ap_name=\"%s\",radio=\"ng\",ssid=\"%s\"} %d\n", site.name, name, ssid.name, ssid.clientsG)
-}
-
-func getApName(ap *accessPoint) string {
-	if len(ap.name) == 0 {
-		return ap.mac
-	}
-
-	return ap.name
 }

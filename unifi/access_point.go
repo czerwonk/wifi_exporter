@@ -1,4 +1,4 @@
-package main
+package unifi
 
 import (
 	"encoding/json"
@@ -42,9 +42,9 @@ type apJson struct {
 	} `json:"meta"`
 }
 
-func getAccessPoints(siteId string, cookie string) ([]*accessPoint, error) {
+func getAccessPoints(siteId string, cookie string, url string) ([]*accessPoint, error) {
 	ressource := fmt.Sprintf("s/%s/stat/device", siteId)
-	body, err := requestApi(ressource, cookie)
+	body, err := requestApi(ressource, cookie, url)
 
 	if err != nil {
 		return nil, err

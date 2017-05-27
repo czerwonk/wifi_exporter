@@ -1,4 +1,4 @@
-package main
+package unifi
 
 import (
 	"encoding/json"
@@ -21,8 +21,8 @@ type siteJsonData struct {
 	} `json:"meta"`
 }
 
-func getSites(cookie string) ([]*site, error) {
-	body, err := requestApi("self/sites", cookie)
+func getSites(cookie string, url string) ([]*site, error) {
+	body, err := requestApi("self/sites", cookie, url)
 
 	if err != nil {
 		return nil, err

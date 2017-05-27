@@ -1,4 +1,4 @@
-package main
+package unifi
 
 import (
 	"bytes"
@@ -16,11 +16,11 @@ type loginData struct {
 	Strict   bool   `json:"strict"`
 }
 
-func getCookie() (string, error) {
-	url := fmt.Sprintf("%s/api/login", *apiUrl)
+func getCookie(apiUrl, apiUser, apiPass string) (string, error) {
+	url := fmt.Sprintf("%s/api/login", apiUrl)
 	log.Printf("POST %s\n", url)
 
-	d := &loginData{Username: *apiUser, Password: *apiPass, Strict: true}
+	d := &loginData{Username: apiUser, Password: apiPass, Strict: true}
 	json, err := json.Marshal(d)
 
 	if err != nil {
