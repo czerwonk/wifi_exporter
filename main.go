@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/czerwonk/wifi_exporter/unifi"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/log"
 )
 
 const version string = "0.3.0"
@@ -54,7 +54,7 @@ func errorHandler(f func(http.ResponseWriter, *http.Request) error) http.Handler
 		err := f(w, r)
 
 		if err != nil {
-			log.Println(err)
+			log.Errorln(err)
 		}
 	}
 }
@@ -69,7 +69,9 @@ func handleMetricsRequest(w http.ResponseWriter, r *http.Request) error {
 	reg := prometheus.NewRegistry()
 	reg.MustRegister(c)
 
-	h := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
+	h := promhttp.HandlerFor(reg, promhttp.HandlerOpts{
+		ErrorLog:      log.NewErrorLogger(),
+		ErrorHandling: promhttp.ContinueOnError})
 	h.ServeHTTP(w, r)
 
 	return nil
