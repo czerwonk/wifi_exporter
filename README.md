@@ -1,4 +1,7 @@
-# wifi_exporter [![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)][travis]
+# wifi_exporter 
+[![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)][travis]
+[![Go Report Card](https://goreportcard.com/badge/github.com/czerwonk/wifi_exporter)][goreportcard]
+
 Metric exporter for wireless controllers to use with Prometheus
 
 ## Remarks
@@ -31,3 +34,4 @@ Unifi is a registered trademark of Ubiquiti Networks
 see https://www.ubnt.com/enterprise/software/
 
 [travis]: https://travis-ci.org/czerwonk/wifi_exporter
+[goreportcard]: https://goreportcard.com/report/github.com/czerwonk/wifi_exporter
