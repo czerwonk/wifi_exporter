@@ -20,7 +20,7 @@ func init() {
 	labels := make([]string, 0)
 	labels = append(labels, "site", "ap_name")
 
-	apStateDesc = prometheus.NewDesc("unifi_ap_state", "State of the access point", labels, nil)
+	apStateDesc = prometheus.NewDesc("wifi_unifi_ap_state", "State of the access point", labels, nil)
 }
 
 // NewUnifiCollector create a collector to get metrics from unifi controller
