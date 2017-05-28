@@ -59,10 +59,10 @@ func loadConfig() error {
 }
 
 func startServer() {
-	fmt.Printf("Starting wifi exporter (Version: %s)\n", version)
+	log.Infof("Starting wifi exporter (Version: %s)\n", version)
 	http.HandleFunc(*metricsPath, errorHandler(handleMetricsRequest))
 
-	fmt.Printf("Listening for %s on %s\n", *metricsPath, *listenAddress)
+	log.Infof("Listening for %s on %s\n", *metricsPath, *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
 }
 
