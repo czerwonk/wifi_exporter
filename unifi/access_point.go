@@ -13,19 +13,15 @@ type ssid struct {
 }
 
 type accessPoint struct {
-	name     string
-	mac      string
-	state    int
-	clientsN int
-	clientsG int
-	ssids    []*ssid
+	name  string
+	mac   string
+	state int
+	ssids []*ssid
 }
 
 type apJsonData struct {
 	Name     string `json:"name,omitempty"`
 	State    int    `json:"state"`
-	NaNumSta int    `json:"na-num_sta"`
-	NgNumSta int    `json:"ng-num_sta"`
 	Mac      string `json:"mac"`
 	VapTable []struct {
 		Essid  string `json:"essid"`
@@ -72,7 +68,7 @@ func getApsFromJsonData(json apJson) []*accessPoint {
 	res := make([]*accessPoint, 0)
 
 	for _, x := range json.Data {
-		s := accessPoint{name: x.Name, mac: x.Mac, state: x.State, clientsN: x.NaNumSta, clientsG: x.NgNumSta, ssids: getSsids(x)}
+		s := accessPoint{name: x.Name, mac: x.Mac, state: x.State, ssids: getSsids(x)}
 		res = append(res, &s)
 	}
 

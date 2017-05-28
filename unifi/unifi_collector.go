@@ -1,13 +1,14 @@
 package unifi
 
 import (
+	"sync"
+
+	"github.com/czerwonk/wifi_exporter/common"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
 var (
-	apStateDesc       *prometheus.Desc
-	apClientsDesc     *prometheus.Desc
-	apClientsSsidDesc *prometheus.Desc
+	apStateDesc *prometheus.Desc
 )
 
 type UnifiCollector struct {
@@ -20,12 +21,6 @@ func init() {
 	labels = append(labels, "site", "ap_name")
 
 	apStateDesc = prometheus.NewDesc("unifi_ap_state", "State of the access point", labels, nil)
-
-	labels = append(labels, "radio")
-	apClientsDesc = prometheus.NewDesc("unifi_ap_clients", "Number of users", labels, nil)
-
-	labels = append(labels, "ssid")
-	apClientsSsidDesc = prometheus.NewDesc("unifi_ap_ssid_clients", "Number of users for ssid", labels, nil)
 }
 
 // NewUnifiCollector create a collector to get metrics from unifi controller
@@ -51,9 +46,17 @@ func (c *UnifiCollector) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (c *UnifiCollector) exportForSites(sites []*site, ch chan<- prometheus.Metric) {
+	var wg sync.WaitGroup
+	wg.Add(len(sites))
+
 	for _, s := range sites {
-		c.exportForSite(s, ch)
+		go func(site *site) {
+			defer wg.Done()
+			c.exportForSite(site, ch)
+		}(s)
 	}
+
+	wg.Wait()
 }
 
 func (c *UnifiCollector) exportForSite(s *site, ch chan<- prometheus.Metric) {
@@ -79,18 +82,21 @@ func (c *UnifiCollector) exportForAccessPoint(s *site, ap *accessPoint, ch chan<
 	labelValues = append(labelValues, s.name, name)
 	ch <- prometheus.MustNewConstMetric(apStateDesc, prometheus.GaugeValue, float64(ap.state), labelValues...)
 
-	ch <- prometheus.MustNewConstMetric(apClientsDesc, prometheus.GaugeValue, float64(ap.clientsG), append(labelValues, "ng")...)
-	ch <- prometheus.MustNewConstMetric(apClientsDesc, prometheus.GaugeValue, float64(ap.clientsN), append(labelValues, "na")...)
+	up := 0
+	if ap.state == 1 {
+		up = 1
+	}
+	ch <- common.MustNewMetricForUp(s.name, name, up)
 
 	for _, ssid := range ap.ssids {
-		ch <- prometheus.MustNewConstMetric(apClientsSsidDesc, prometheus.GaugeValue, float64(ssid.clientsG), append(labelValues, "ng", ssid.name)...)
-		ch <- prometheus.MustNewConstMetric(apClientsSsidDesc, prometheus.GaugeValue, float64(ssid.clientsN), append(labelValues, "na", ssid.name)...)
+		ch <- common.MustNewMetricForClients(s.name, name, "ng", ssid.name, ssid.clientsG)
+		ch <- common.MustNewMetricForClients(s.name, name, "na", ssid.name, ssid.clientsN)
 	}
 }
 
 // Describe implements Prometheus Collector interface
 func (c *UnifiCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- apStateDesc
-	ch <- apClientsDesc
-	ch <- apClientsSsidDesc
+	ch <- common.AccessPointUpDesc
+	ch <- common.AccessPointClientsDesc
 }

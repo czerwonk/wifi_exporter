@@ -21,6 +21,7 @@ type UnfiConfig struct {
 
 type RuckusConfig struct {
 	Host string `yaml:"host"`
+	Site string `yaml:"host"`
 }
 
 // Load reads config file
