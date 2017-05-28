@@ -9,6 +9,18 @@
 			"revisionTime": "2017-05-15T10:45:16Z"
 		},
 		{
+			"checksumSHA1": "FGMQmMSDjeXv+I+l16Jz9aJRBgw=",
+			"path": "github.com/alouca/gologger",
+			"revision": "7d4b7291de9c9df1b3fe6a3d784b3675b6c0c996",
+			"revisionTime": "2012-09-04T11:46:45Z"
+		},
+		{
+			"checksumSHA1": "WIapEVn6V+xlKoN/KcORv2hw208=",
+			"path": "github.com/alouca/gosnmp",
+			"revision": "090bf6cfd0364cf1d71d481e7c0ce3a93155490d",
+			"revisionTime": "2017-03-21T18:17:35Z"
+		},
+		{
 			"checksumSHA1": "spyv5/YFBjYyZLZa1U2LBfDR8PM=",
 			"path": "github.com/beorn7/perks/quantile",
 			"revision": "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9",
@@ -103,6 +115,12 @@
 			"path": "golang.org/x/sys/windows/svc/eventlog",
 			"revision": "a55a76086885b80f79961eacb876ebd8caf3868d",
 			"revisionTime": "2017-05-24T02:50:34Z"
+		},
+		{
+			"checksumSHA1": "fALlQNY1fM99NesfLJ50KguWsio=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b",
+			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
 	"rootPath": "github.com/czerwonk/wifi_exporter"

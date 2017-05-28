@@ -5,7 +5,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Go SDK" level="project" />
     <orderEntry type="library" name="GOPATH &lt;unifi&gt;" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Go SDK" level="project" />
   </component>
 </module>

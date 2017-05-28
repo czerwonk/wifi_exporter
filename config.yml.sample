@@ -1,0 +1,6 @@
+---
+
+unifi:
+  - api_url: "https://unifi.mydomain.net"
+    api_user: "ubnt"
+    api_password: "ubnt"
