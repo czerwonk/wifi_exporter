@@ -3,8 +3,9 @@ package unifi
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
+
+	"github.com/prometheus/common/log"
 )
 
 func requestApi(ressource string, cookie string, url string) ([]byte, error) {
@@ -21,7 +22,7 @@ func requestApi(ressource string, cookie string, url string) ([]byte, error) {
 
 func getApiRequest(ressource string, url string) (*http.Request, error) {
 	u := fmt.Sprintf("%s/api/%s", url, ressource)
-	log.Printf("GET %s\n", u)
+	log.Debugf("GET %s\n", u)
 	req, err := http.NewRequest("GET", u, nil)
 
 	if err != nil {
