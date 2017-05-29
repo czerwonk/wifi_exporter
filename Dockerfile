@@ -6,5 +6,5 @@ RUN apt-get install -y git
 RUN go get github.com/czerwonk/wifi_exporter
 
 # Run the application and expose the port
-CMD wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
+CMD wifi_exporter -config.path /etc/wifi_exporter.yml
 EXPOSE 9120
