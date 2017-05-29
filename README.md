@@ -15,12 +15,12 @@ go get -u github.com/czerwonk/wifi_exporter
 
 ## Use
 ```
-wifi_exporter -api.url $apiurl -api.user $user -api.pass $pass
+wifi_exporter -config.path config.yml
 ```
 
 ## Use with Docker
 ```
-docker run -d -e apiurl="http://unifi" -e user="username" -e pass="secret" czerwonk/wifi_exporter
+docker run -d -v config.yml:/etc/wifi_exporter.yml
 ```
 
 ## License
