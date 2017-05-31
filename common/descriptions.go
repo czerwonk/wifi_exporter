@@ -8,8 +8,8 @@ var (
 )
 
 func init() {
-	labels := make([]string, 0)
-	labels = append(labels, "site", "ap_name")
+	labels := []string{"site", "ap_name"}
+
 	AccessPointUpDesc = prometheus.NewDesc("wifi_ap_up", "0 = AP is down, 1 = AP is running", labels, nil)
 	AccessPointClientsDesc = prometheus.NewDesc("wifi_ap_clients", "Number of clients on AP", labels, nil)
 }

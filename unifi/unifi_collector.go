@@ -18,8 +18,7 @@ type UnifiCollector struct {
 }
 
 func init() {
-	labels := make([]string, 0)
-	labels = append(labels, "site", "ap_name")
+	labels := []string{"site", "ap_name"}
 
 	apStateDesc = prometheus.NewDesc("wifi_unifi_ap_state", "State of the access point", labels, nil)
 
