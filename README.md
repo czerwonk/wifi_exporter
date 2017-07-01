@@ -29,7 +29,7 @@ docker run -d -v config.yml:/etc/wifi_exporter.yml
 ## Prometheus
 see https://prometheus.io/
 
-## Unfi Controller
+## Unifi Controller
 Unifi is a registered trademark of Ubiquiti Networks
 
 see https://www.ubnt.com/enterprise/software/
