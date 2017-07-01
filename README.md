@@ -1,7 +1,7 @@
 # wifi_exporter 
-[![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)][travis]
-[![Docker Build Statu](https://img.shields.io/docker/build/czerwonk/wifi_exporter.svg)][dockerbuild]
-[![Go Report Card](https://goreportcard.com/badge/github.com/czerwonk/wifi_exporter)][goreportcard]
+[![Build Status](https://travis-ci.org/czerwonk/wifi_exporter.svg)](https://travis-ci.org/czerwonk/wifi_exporter)
+[![Docker Build Statu](https://img.shields.io/docker/build/czerwonk/wifi_exporter.svg)](https://hub.docker.com/r/czerwonk/wifi_exporter/builds)
+[![Go Report Card](https://goreportcard.com/badge/github.com/czerwonk/wifi_exporter)](https://goreportcard.com/report/github.com/czerwonk/wifi_exporter)
 
 Metric exporter for wireless controllers to use with Prometheus
 
@@ -33,7 +33,3 @@ see https://prometheus.io/
 Unifi is a registered trademark of Ubiquiti Networks
 
 see https://www.ubnt.com/enterprise/software/
-
-[travis]: https://travis-ci.org/czerwonk/wifi_exporter
-[dockerbuild]: https://hub.docker.com/r/czerwonk/wifi_exporter/builds
-[goreportcard]: https://goreportcard.com/report/github.com/czerwonk/wifi_exporter
